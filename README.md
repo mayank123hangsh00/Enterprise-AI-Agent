@@ -18,6 +18,9 @@ AcmeAssist includes a meticulously crafted frontend running directly off the API
 - **Micro-Animations:** Seamless transitions natively supported in the app.
 - **RAG Architecture Visualization:** Chips linking directly to source documents that answered the queries!
 
+### Project Live Demo
+![Live Agent Demo](./assets/demo_recording.webp)
+
 ---
 
 ## 🏗️ Architecture Overview & Tech Stack
