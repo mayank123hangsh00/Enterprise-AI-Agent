@@ -19,7 +19,10 @@ AcmeAssist includes a meticulously crafted frontend running directly off the API
 - **RAG Architecture Visualization:** Chips linking directly to source documents that answered the queries!
 
 ### Project Live Demo
-![Live Agent Demo](./assets/demo_recording.webp)
+![Live Agent Demo 1](./assets/demo_recording.webp)
+
+### Full Conversation Capability
+![Live Agent Demo 2](./assets/agent_demo_remote_work.webp)
 
 ---
 
