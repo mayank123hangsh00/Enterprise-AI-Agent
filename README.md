@@ -207,10 +207,10 @@ To overcome cloud billing limits natively, I adapted the architecture to be 100%
 Deployed to Elastic Beanstalk via Free Tier `t3.micro`. Includes dynamic disk swaps mapped natively within `.ebextensions` ensuring the FAISS + Vector layers succeed fully in the cloud environment.
 
 ### Why custom agent loop instead of LangChain?
-LangChain adds significant abstraction overhead. A custom loop is simpler to debug, easier to explain in interviews, and is only ~80 lines of code. It uses Groq API's native function calling, which is the industry standard.
+LangChain adds significant abstraction overhead. A custom loop is simpler to debug, highly extensible, and is only ~80 lines of code. It uses Groq API's native function calling, which is the industry standard.
 
 ### Why FAISS instead of a cloud vector database?
-FAISS runs entirely in-memory with zero infrastructure requirements. For this assignment's scale, it's the perfect choice. 
+FAISS runs entirely in-memory with zero infrastructure requirements. For the scope of this project, it's the perfect fast-retrieval choice. 
 
 ---
 
@@ -226,4 +226,4 @@ FAISS runs entirely in-memory with zero infrastructure requirements. For this as
 
 ---
 
-*Built for the AI Engineer Assignment — Acme Corporation Internal Assistant*
+*Built as a scalable Enterprise AI Agent architecture demonstration.*
