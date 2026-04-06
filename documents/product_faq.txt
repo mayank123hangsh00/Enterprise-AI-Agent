@@ -1,0 +1,126 @@
+ACME CORPORATION — FLOWDESK PRO
+PRODUCT FAQ (Frequently Asked Questions)
+Last Updated: March 2025 | Product Team
+
+──────────────────────────────────────────────────────────────────────────────
+
+ABOUT FLOWDESK PRO
+──────────────────────────────────────────────────────────────────────────────
+
+Q: What is FlowDesk Pro?
+A: FlowDesk Pro is Acme Corporation's flagship workplace productivity platform.
+   It combines project management, team communication, document collaboration,
+   and AI-powered task automation into a single, unified dashboard. It is
+   designed for teams of 5 to 5,000+ users across any industry.
+
+Q: What platforms does FlowDesk Pro support?
+A: FlowDesk Pro is available as:
+   • Web app (Chrome, Firefox, Safari, Edge — latest 2 versions)
+   • Desktop apps: Windows 10/11, macOS 12+, Ubuntu 20.04+
+   • Mobile apps: iOS 16+ and Android 12+
+   All platforms sync in real-time.
+
+Q: Is there a free trial?
+A: Yes. All plans include a 14-day free trial with full Starter plan features.
+   No credit card is required to start the trial.
+
+──────────────────────────────────────────────────────────────────────────────
+
+PRICING & PLANS
+──────────────────────────────────────────────────────────────────────────────
+
+Q: What are the pricing tiers?
+A:
+  ┌─────────────┬──────────────────┬──────────────────────────────────────────┐
+  │ Plan        │ Price            │ Key Features                             │
+  ├─────────────┼──────────────────┼──────────────────────────────────────────┤
+  │ Starter     │ $9/user/month    │ Up to 10 users, 5 GB storage, core PM   │
+  │ Growth      │ $19/user/month   │ Up to 50 users, 50 GB, advanced reports │
+  │ Business    │ $39/user/month   │ Unlimited users, 500 GB, AI features    │
+  │ Enterprise  │ Custom pricing   │ SSO, SLA, custom contracts, on-prem opt │
+  └─────────────┴──────────────────┴──────────────────────────────────────────┘
+  Annual billing provides a 20% discount on all paid plans.
+
+Q: Do you charge per seat or per organisation?
+A: FlowDesk Pro is priced per active user per month. A user is considered
+   "active" if they log in at least once in the billing month. Guest users
+   (view-only access) do not count toward the seat count.
+
+Q: What happens when I exceed my user limit on Starter?
+A: The system will prompt you to upgrade to the Growth plan before adding more
+   users. No additional users can be added without upgrading.
+
+Q: Is there a non-profit or educational discount?
+A: Yes. Registered non-profits and accredited educational institutions receive
+   a 40% discount on the Growth or Business plan. Contact sales@acmecorp.com
+   with proof of status.
+
+──────────────────────────────────────────────────────────────────────────────
+
+FEATURES
+──────────────────────────────────────────────────────────────────────────────
+
+Q: What are the AI features in FlowDesk Pro?
+A: Business and Enterprise plans include:
+   • FlowAI Task Suggester: Analyses your project history and auto-suggests
+     the next tasks, assignees, and due dates.
+   • Smart Summaries: Generates meeting notes summaries from integrated
+     video calls (Zoom, Teams, Google Meet).
+   • Blockers Detector: Flags tasks at risk of missing deadlines.
+   • Natural Language Search: Search all docs and tasks using plain English.
+
+Q: Does FlowDesk Pro integrate with other tools?
+A: Yes. Available integrations include:
+   • Communication: Slack, Microsoft Teams, Google Chat
+   • Email: Outlook, Gmail
+   • Calendar: Google Calendar, Outlook Calendar
+   • File storage: SharePoint, Google Drive, Dropbox Business, OneDrive
+   • Development: GitHub, GitLab, Jira, Bitbucket
+   • Finance: QuickBooks, Xero, FreshBooks
+   Custom integrations are available via REST API and Webhooks.
+
+Q: Is there an API available?
+A: Yes. FlowDesk Pro offers a REST API (v3) and GraphQL API. Full documentation
+   is available at https://developer.acmecorp.com. API access is included in
+   Growth, Business, and Enterprise plans. Rate limits apply per plan.
+
+──────────────────────────────────────────────────────────────────────────────
+
+SECURITY & COMPLIANCE
+──────────────────────────────────────────────────────────────────────────────
+
+Q: Is FlowDesk Pro compliant with GDPR?
+A: Yes. FlowDesk Pro is fully GDPR-compliant. Data Processing Agreements
+   (DPAs) are available upon request. EU customers' data is stored exclusively
+   in EU-based Azure data centres (West Europe region).
+
+Q: What certifications does FlowDesk Pro hold?
+A: SOC 2 Type II, ISO 27001, HIPAA-eligible (Business & Enterprise), GDPR
+
+Q: Is data encrypted?
+A: Yes. All data is encrypted in transit (TLS 1.3) and at rest (AES-256).
+
+──────────────────────────────────────────────────────────────────────────────
+
+SERVICE LEVEL AGREEMENT (SLA)
+──────────────────────────────────────────────────────────────────────────────
+
+Q: What is the uptime guarantee?
+A:
+  • Starter / Growth : 99.5% monthly uptime
+  • Business         : 99.9% monthly uptime
+  • Enterprise       : 99.99% monthly uptime with dedicated support
+
+Q: What support options are available?
+A:
+  • Starter  : Email support (response within 48 hours), knowledge base
+  • Growth   : Email + chat support (response within 24 hours)
+  • Business : Priority support (response within 4 hours, 24/7)
+  • Enterprise: Dedicated Customer Success Manager, 1-hour response SLA
+
+Q: How do I report a bug or service disruption?
+A: Visit https://status.acmecorp.com for live status. For support tickets,
+   log in to your FlowDesk Pro dashboard → Help → Contact Support.
+
+──────────────────────────────────────────────────────────────────────────────
+Product Team | product@acmecorp.com | https://www.acmecorp.com/flowdesk

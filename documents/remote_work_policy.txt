@@ -1,0 +1,131 @@
+ACME CORPORATION
+REMOTE WORK POLICY
+Version 2.4 | Effective: January 15, 2025
+People & Culture Team | hr-helpdesk@acmecorp.com
+
+──────────────────────────────────────────────────────────────────────────────
+
+1. PURPOSE
+──────────────────────────────────────────────────────────────────────────────
+Acme Corporation supports flexible work arrangements as part of our commitment
+to employee wellbeing and modern work practices. This policy establishes clear
+expectations for employees who work remotely on a regular or occasional basis.
+
+2. ELIGIBILITY
+──────────────────────────────────────────────────────────────────────────────
+2.1 Who May Work Remotely
+  Remote work (full or hybrid) is available to employees who:
+  a) Have completed their 3-month probation period successfully.
+  b) Hold a role classified as "remote-eligible" by their department head.
+     (Roles requiring physical presence — facilities, reception, lab staff —
+     are not eligible.)
+  c) Have a consistent performance rating of 3/5 or above.
+  d) Have received written approval from their direct manager.
+
+2.2 Remote Work Arrangements
+  Type            | Description
+  ────────────────|──────────────────────────────────────────────────────────
+  Hybrid          | 2–3 days in office, rest remote (most common)
+  Fully Remote    | Requires VP approval + quarterly in-person visits
+  Occasional WFH  | Ad-hoc, approved day-by-day via manager
+  Temporary WFH   | Short-term (e.g., illness recovery, home emergency)
+
+3. EQUIPMENT & HOME WORKSPACE
+──────────────────────────────────────────────────────────────────────────────
+3.1 Company-Provided Equipment
+  The following are provided for approved remote workers:
+  • Laptop (as per standard spec for the role)
+  • USB-C dock station (for full-time remote employees)
+  • Noise-cancelling headset
+  • Webcam (if not built into laptop)
+
+3.2 Employee Responsibilities
+  • Maintain a safe, distraction-minimised workspace with a reliable internet
+    connection (minimum 25 Mbps download / 10 Mbps upload).
+  • Ensure children, pets, or household members do not disrupt video calls.
+  • Company equipment must NOT be used by household members or third parties.
+  • Equipment must be returned immediately upon departure from the company.
+
+3.3 Ergonomics
+  Employees are encouraged to complete the online Ergonomics Self-Assessment
+  on the HR portal. An annual budget of $200 is available for ergonomic
+  accessories (approved list on HR portal). Submit receipts via Concur.
+
+4. COMMUNICATION & AVAILABILITY EXPECTATIONS
+──────────────────────────────────────────────────────────────────────────────
+4.1 Core Hours
+  Remote employees MUST be reachable during core hours: 10:00 AM – 4:00 PM
+  in their team's primary time zone.
+
+4.2 Response Time Standards
+  • Microsoft Teams messages : Respond within 30 minutes during core hours
+  • Emails                  : Respond within 4 hours during business hours
+  • Urgent calls / pages    : Within 15 minutes during working hours
+
+4.3 Meetings
+  • Camera ON is expected for all internal and customer-facing video calls
+    unless technical issues or health reasons prevent it.
+  • Use a virtual background or ensure a professional-looking background.
+  • Be punctual; late arrivals to meetings are noted as a performance factor.
+
+4.4 Status Updates
+  All remote employees must post a daily status in their team's Teams channel:
+  • Start-of-day: "Online — available" + top 3 tasks for the day
+  • End-of-day  : Brief summary of completed work + any blockers
+
+5. EXPENSE REIMBURSEMENT
+──────────────────────────────────────────────────────────────────────────────
+  Expense                      | Limit  | Notes
+  ─────────────────────────────|────────|─────────────────────────────────────
+  Internet (home)              | $50/mo | Requires ISP invoice
+  Ergonomic accessories (annual)| $200  | See approved list on HR portal
+  Coworking / hot-desk space   | $150/mo| Requires receipts + manager approval
+  Mobile data (if applicable)  | $30/mo | Only for field/travel roles
+
+  Submit all expense claims via Concur within 30 days of the expense date.
+  Claims older than 90 days will not be reimbursed.
+
+6. DATA SECURITY REQUIREMENTS
+──────────────────────────────────────────────────────────────────────────────
+  Remote employees are subject to all provisions in the IT Security Guidelines.
+  Key requirements when working remotely:
+  • VPN MUST be active whenever accessing internal systems or CONF/RESTRICTED
+    data — no exceptions.
+  • Do NOT use public Wi-Fi (cafes, airports, hotels) without VPN.
+  • Lock screen when stepping away from the computer (Win+L / Cmd+Ctrl+Q).
+  • Ensure screens are not visible to others in public or shared spaces.
+  • Never print Confidential or Restricted documents on personal printers.
+
+7. PERFORMANCE & ACCOUNTABILITY
+──────────────────────────────────────────────────────────────────────────────
+  Remote work is a privilege, not a right. It can be revoked if:
+  • Attendance standards are not met (missed core hours without notice)
+  • Performance drops below a 3/5 rating
+  • The employee is unreachable during agreed working hours on two or more
+    occasions within any 30-day period
+  • Security policy violations occur
+
+  Managers conduct a formal remote work arrangement review every 6 months.
+
+8. TRAVELLING & TIME ZONE CHANGES
+──────────────────────────────────────────────────────────────────────────────
+  • Notify your manager and HR if you intend to work from a different country
+    or time zone for more than 10 consecutive days. Tax and legal implications
+    may apply. HR will provide guidance.
+  • Working abroad without prior approval may result in tax liability for both
+    the employee and the company.
+
+9. IN-PERSON REQUIREMENTS
+──────────────────────────────────────────────────────────────────────────────
+  Even fully remote employees are required to attend in person:
+  • Quarterly all-hands / town hall meetings
+  • Annual performance review meeting with manager
+  • Team offsites (typically 1–2 per year)
+  • New joiner onboarding week (first week is always in-office)
+  Travel and accommodation costs for mandatory in-person events are covered
+  by the company per the Travel Policy.
+
+──────────────────────────────────────────────────────────────────────────────
+Document Owner: VP People & Culture
+Next Review: January 2026
+Questions: hr-helpdesk@acmecorp.com | HR Portal: https://hr.acmecorp.internal

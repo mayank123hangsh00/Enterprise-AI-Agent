@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/ask",
+      "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/ask"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/static/$1"
+    }
+  ]
+}

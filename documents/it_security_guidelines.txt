@@ -1,0 +1,127 @@
+ACME CORPORATION
+IT SECURITY GUIDELINES
+Version 5.1 | Effective: February 1, 2025
+Information Security Team | it-security@acmecorp.com
+
+──────────────────────────────────────────────────────────────────────────────
+
+1. PURPOSE & SCOPE
+──────────────────────────────────────────────────────────────────────────────
+These guidelines govern acceptable use of all information technology systems,
+data, and network resources owned or leased by Acme Corporation. This policy
+applies to all employees, contractors, interns, and third-party vendors with
+access to Acme systems — regardless of location.
+
+2. PASSWORD POLICY
+──────────────────────────────────────────────────────────────────────────────
+2.1 Requirements
+  • Minimum length          : 14 characters
+  • Complexity             : Must include uppercase, lowercase, number, AND
+                             special character (!@#$%^&*)
+  • Maximum age            : Passwords must be changed every 90 days
+  • Reuse restriction      : Last 12 passwords cannot be reused
+
+2.2 Multi-Factor Authentication (MFA)
+  MFA is MANDATORY for:
+  • VPN access
+  • Corporate email (Outlook / Microsoft 365)
+  • Access to cloud services (Azure Portal, AWS Console)
+  • Any system marked as "Confidential" or "Restricted"
+  Approved MFA methods: Microsoft Authenticator app, hardware security keys.
+  SMS-based MFA is NOT permitted.
+
+2.3 Password Managers
+  All employees are provided a company-licensed 1Password account. Storing
+  corporate passwords in browsers or personal password managers is prohibited.
+
+3. DATA CLASSIFICATION
+──────────────────────────────────────────────────────────────────────────────
+  Level         | Label        | Examples                    | Encryption
+  ──────────────|──────────────|─────────────────────────────|──────────
+  1 – Public    | PUBLIC       | Marketing materials, website| Optional
+  2 – Internal  | INTERNAL     | Internal memos, project docs| In transit
+  3 – Confidential| CONF       | Customer PII, contracts     | In transit + rest
+  4 – Restricted| RESTRICTED   | Board reports, source code  | Always + key mgmt
+
+  All new documents must be labelled with the appropriate classification in
+  the document header or file metadata before sharing or storage.
+
+4. ACCEPTABLE USE OF COMPANY DEVICES
+──────────────────────────────────────────────────────────────────────────────
+  Permitted:
+  • Work-related tasks and communication
+  • Approved software from the company app catalogue (Software Center)
+  • Incidental personal use during non-work hours (reasonable limits)
+
+  Prohibited:
+  • Installing unlicensed or non-approved software
+  • Crypto mining, torrenting, or accessing illegal content
+  • Connecting to unknown or public Wi-Fi without VPN active
+  • Disabling security software (antivirus, EDR agents, disk encryption)
+  • Using personal USB drives or storage devices (use company-approved devices)
+
+5. VPN POLICY
+──────────────────────────────────────────────────────────────────────────────
+  • VPN (Cisco Secure Client) MUST be active whenever accessing internal
+    systems outside the office network.
+  • VPN credentials must not be shared. Each employee has a unique profile.
+  • Split tunnelling is disabled — all traffic routes through the corporate VPN.
+  • Approved VPN profiles are managed by IT Security; do not modify settings.
+
+6. EMAIL & PHISHING
+──────────────────────────────────────────────────────────────────────────────
+  • Never open attachments or click links in unexpected emails.
+  • Verify wire transfer or payment requests via phone — never email alone.
+  • Report suspicious emails using the "Report Phishing" button in Outlook.
+  • Acme IT will NEVER ask for your password over email or phone.
+  • Phishing simulation exercises are conducted quarterly. Failures result in
+    mandatory security re-training.
+
+7. INCIDENT REPORTING
+──────────────────────────────────────────────────────────────────────────────
+  Report ALL security incidents within 1 hour of discovery:
+    • Security Hotline : +1 (800) 226-3767 ext. 9911  (24/7)
+    • Email (urgent)   : security-incident@acmecorp.com
+    • IT Portal        : https://ithelp.acmecorp.internal → "Security Incident"
+
+  Examples of reportable incidents:
+  • Lost or stolen device (laptop, phone, access card)
+  • Suspected malware infection or ransomware
+  • Unauthorised access to your account
+  • Accidentally sending Confidential data to the wrong recipient
+  • Clicking a phishing link
+
+  The Information Security team will respond within 15 minutes for Critical
+  incidents and within 2 hours for High severity incidents.
+
+8. BRING YOUR OWN DEVICE (BYOD)
+──────────────────────────────────────────────────────────────────────────────
+  Personal devices may only access corporate email and Microsoft Teams via
+  the approved Intune Company Portal app, which enforces:
+  • Device encryption
+  • Remote wipe capability
+  • OS patch currency (no more than 30 days behind latest patch)
+  BYOD devices may NOT access Confidential or Restricted data.
+
+9. CLOUD & SaaS USAGE
+──────────────────────────────────────────────────────────────────────────────
+  Approved cloud services : Microsoft 365, Azure (company tenant), Slack,
+                            Jira, Confluence, GitHub Enterprise, Figma
+  Prohibited              : Uploading company data to personal Google Drive,
+                            Dropbox personal, WeTransfer, or unapproved AI
+                            tools (ChatGPT with data input, etc.)
+  New SaaS procurement    : Submit a request via IT Security approval workflow
+                            (allow 5 business days for security review).
+
+10. POLICY VIOLATIONS
+──────────────────────────────────────────────────────────────────────────────
+  Violations are handled progressively:
+  • First offence   : Verbal warning + mandatory training
+  • Second offence  : Written warning on HR record
+  • Third offence   : Disciplinary action up to and including termination
+  Severe breaches (data exfiltration, wilful sabotage) skip progressive steps.
+
+──────────────────────────────────────────────────────────────────────────────
+Document Owner: Chief Information Security Officer (CISO)
+Next Review: February 2026
+Questions: it-security@acmecorp.com | ext. 3300

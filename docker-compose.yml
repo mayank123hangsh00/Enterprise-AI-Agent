@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  acmeassist:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        OPENAI_API_KEY: ${OPENAI_API_KEY}
+    container_name: acmeassist-api
+    ports:
+      - "80:8000"
+    env_file:
+      - .env
+    volumes:
+      # Mount vectorstore so the index persists across container restarts
+      - ./vectorstore:/app/vectorstore
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s

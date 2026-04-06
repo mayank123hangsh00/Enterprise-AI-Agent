@@ -1,0 +1,121 @@
+ACME CORPORATION
+EMPLOYEE LEAVE POLICY
+Version 3.2 | Effective: January 1, 2025
+HR Department – Human Resources & People Operations
+
+──────────────────────────────────────────────────────────────────────────────
+
+1. PURPOSE
+──────────────────────────────────────────────────────────────────────────────
+This policy defines the types of leave available to all full-time employees of
+Acme Corporation, the entitlements for each leave type, the approval process,
+and the rules governing leave accrual and carry-forward.
+
+2. SCOPE
+──────────────────────────────────────────────────────────────────────────────
+This policy applies to all permanent full-time employees. Contract staff,
+interns, and part-time employees are governed by separate addendums attached
+to their employment contracts.
+
+3. ANNUAL (PAID) LEAVE
+──────────────────────────────────────────────────────────────────────────────
+3.1 Entitlement
+  • Years 0–2 of service   : 18 working days per calendar year
+  • Years 3–5 of service   : 22 working days per calendar year
+  • Years 6+ of service    : 25 working days per calendar year
+
+3.2 Accrual
+  Leave accrues at a rate of 1.5 days per completed month of service.
+  New joiners are eligible to apply for leave after completing 3 months of
+  probation.
+
+3.3 Carry-Forward
+  A maximum of 10 unused annual leave days may be carried into the next
+  calendar year. Leave exceeding this limit is forfeited and cannot be
+  encashed unless the employee is exiting the company.
+
+3.4 Application Process
+  a) Employees must apply via the HR portal (hr.acmecorp.internal) at least
+     5 working days before the intended leave start date.
+  b) Leave of more than 10 consecutive days requires manager AND department
+     head approval, and must be applied for at least 3 weeks in advance.
+  c) Emergency leave requests (less than 5 days' notice) are at the manager's
+     discretion and require written justification.
+
+4. SICK LEAVE
+──────────────────────────────────────────────────────────────────────────────
+4.1 Entitlement
+  All employees receive 12 paid sick days per calendar year.
+
+4.2 Medical Certificate
+  • 1–2 consecutive days  : Self-declaration via HR portal is sufficient.
+  • 3+ consecutive days   : A medical certificate from a registered physician
+                            must be submitted within 48 hours of return.
+
+4.3 No Carry-Forward
+  Unused sick leave does NOT carry forward and CANNOT be encashed.
+
+4.4 Serious Illness
+  Employees with a diagnosed serious illness (hospitalisation > 5 days) may
+  apply for Extended Medical Leave (EML) of up to 60 working days per year,
+  subject to HR and management approval. EML days are separate from standard
+  sick leave.
+
+5. MATERNITY LEAVE
+──────────────────────────────────────────────────────────────────────────────
+  • Duration  : 26 weeks (182 calendar days) fully paid
+  • Eligibility: Employees with at least 12 months of continuous service
+  • Notice    : Submit expected due date to HR at least 8 weeks before the
+                intended leave start date.
+  • Extension : An unpaid extension of up to 12 weeks may be requested.
+
+6. PATERNITY LEAVE
+──────────────────────────────────────────────────────────────────────────────
+  • Duration  : 10 working days fully paid
+  • Must be taken within 3 months of the child's birth/adoption date.
+  • Eligibility: No minimum service requirement.
+
+7. ADOPTION LEAVE
+──────────────────────────────────────────────────────────────────────────────
+  Primary caregiver   : 12 weeks fully paid (same rules as maternity leave)
+  Secondary caregiver : 10 working days (same rules as paternity leave)
+
+8. BEREAVEMENT LEAVE
+──────────────────────────────────────────────────────────────────────────────
+  Type of Loss                        | Paid Days
+  ────────────────────────────────────|──────────
+  Spouse / Life Partner               | 5 days
+  Child (including stillbirth)        | 5 days
+  Parent / Parent-in-law              | 3 days
+  Sibling                             | 3 days
+  Grandparent                         | 2 days
+  Close friend (at manager's discretion)| 1 day
+
+  Additional unpaid compassionate leave may be granted at manager discretion.
+
+9. PUBLIC HOLIDAYS
+──────────────────────────────────────────────────────────────────────────────
+  Employees are entitled to all gazetted national public holidays. If a public
+  holiday falls on a weekend, a substitute day will be given on the nearest
+  weekday. The HR portal publishes the official list at the start of each year.
+
+10. LEAVE WITHOUT PAY (LWP)
+──────────────────────────────────────────────────────────────────────────────
+  Employees may apply for LWP for personal reasons after exhausting all paid
+  leave balances. LWP beyond 5 consecutive days requires VP-level approval.
+  Salary, benefits, and leave accrual are paused during LWP periods.
+
+11. RECALL FROM LEAVE
+──────────────────────────────────────────────────────────────────────────────
+  In exceptional business circumstances, the company may recall an employee
+  from planned leave with a minimum of 72 hours' notice. Unused leave days
+  caused by the recall will be reinstated in full.
+
+12. QUESTIONS & CONTACT
+──────────────────────────────────────────────────────────────────────────────
+  HR Help Desk : hr-helpdesk@acmecorp.com
+  HR Portal    : https://hr.acmecorp.internal
+  Phone        : +1 (800) 226-3767 ext. 2200
+
+──────────────────────────────────────────────────────────────────────────────
+Document Owner: VP Human Resources | Next Review: January 2026
