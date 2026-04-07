@@ -17,11 +17,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # ── Copy application code ─────────────────────────────────────────────────────
 COPY . .
 
-# ── Pre-build Vector Index ────────────────────────────────────────────────────
-# Since we now use local sentence-transformer embeddings instead of OpenAI, 
-# we can safely build the FAISS index directly into the Docker image!
-RUN python scripts/index_documents.py
-
 # ── Server Startup ────────────────────────────────────────────────────────────
+# We no longer pre-build index at Docker build time because it now uses
+# Supabase Cloud which is verified at runtime!
+
 EXPOSE 8000
 CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
