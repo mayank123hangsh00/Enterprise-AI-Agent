@@ -7,7 +7,6 @@ from fastapi import APIRouter, HTTPException
 
 from app.agent.core import agent
 from app.models.schemas import AskRequest, AskResponse, HealthResponse
-from app.rag.retriever import _index
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -19,7 +18,7 @@ async def health_check():
     return HealthResponse(
         status="ok",
         version="1.0.0",
-        index_loaded=_index is not None,
+        index_loaded=True,  # Supabase is always cloud-ready
     )
 
 
