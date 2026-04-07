@@ -8,6 +8,40 @@ This project features a fully **decoupled, cloud-native architecture** using Fas
 
 ## 🏗️ System Architecture
 
+```text
+┌───────────────────────────────────────────────────────────┐
+│                   User / Web Browser                      │
+└─────────────────────────────┬─────────────────────────────┘
+                              │
+               POST /ask {query, session_id}
+                              ▼
+┌───────────────────────────────────────────────────────────┐
+│              FastAPI Backend (AWS App Service)            │
+│  ┌─────────────────────────────────────────────────────┐  │
+│  │                  Agent Core Loop                    │  │
+│  │                                                     │  │
+│  │  1. Load session memory (conversation history)      │  │
+│  │  2. Call Groq API (Llama 3.1) via OpenAI SDK       │  │
+│  │                                                     │  │
+│  │  ┌───────────────────────────────────────────────┐  │  │
+│  │  │        Tool Call? search_documents(query)      │  │  │
+│  │  │                       │                       │  │  │
+│  │  │                       ▼                       │  │  │
+│  │  │  ┌───────────────┐         ┌────────────────┐ │  │  │
+│  │  │  │ Embed Query   ├────────▶│ Supabase Cloud │ │  │  │
+│  │  │  │ (all-MiniLM)  │         │ (pgvector RPC)  │ │  │  │
+│  │  │  └───────────────┘         └────────────────┘ │  │  │
+│  │  └───────────────────────────────────────────────┘  │  │
+│  └──────────────────────────┬──────────────────────────┘  │
+└─────────────────────────────┼─────────────────────────────┘
+                              │
+                 JSON Response {answer, source}
+                              ▼
+┌───────────────────────────────────────────────────────────┐
+│                Glassmorphic UI (Vercel Edge)              │
+└───────────────────────────────────────────────────────────┘
+```
+
 The application is built with a state-of-the-art, high-performance stack designed for zero-latency interactions and maximum data persistence.
 
 - **Frontend:** Glassmorphic Single Page Application (SPA) hosted on **Vercel** for 100ms edge response times. Injected with a secure proxy to bypass CORS and simplify API communication.
@@ -117,4 +151,4 @@ agent/
 
 ---
 
-*Hand-crafted with ❤️ for robust, enterprise-grade AI ecosystems.*
+*Built Production,enterprise grade AI Agent*
