@@ -28,14 +28,14 @@ logger = logging.getLogger(__name__)
 # ── Lifespan ─────────────────────────────────────────────────────────────────
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Load the vector index once at startup."""
+    """Initialize Supabase retriever and dependencies at startup."""
     logger.info("Starting AcmeAssist API (env=%s)", settings.app_env)
     try:
         init_retriever()
-        logger.info("Vector index loaded successfully.")
-    except FileNotFoundError as exc:
+        logger.info("Supabase cloud retriever initialized successfully.")
+    except Exception as exc:
         logger.error("STARTUP ERROR: %s", exc)
-        logger.error("Run: python scripts/index_documents.py  — then restart the server.")
+        logger.error("Please verify your SUPABASE_URL and SUPABASE_KEY in .env")
     yield
     logger.info("Shutting down AcmeAssist API.")
 

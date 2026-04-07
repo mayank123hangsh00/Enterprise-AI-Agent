@@ -1,76 +1,84 @@
-"""Retriever — searches FAISS index for relevant document chunks."""
+"""Supabase Retriever — searches Supabase Cloud vector index for relevant document chunks via HTTPX."""
 from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
 from typing import List
-
-import faiss
-import numpy as np
+import httpx
 
 from app.config import get_settings
 from app.rag.embeddings import embed_query
-from app.rag.indexer import load_index
 
 logger = logging.getLogger(__name__)
-
 
 @dataclass
 class RetrievedChunk:
     text: str
     source: str
-    score: float  # cosine similarity, 0–1
-
-
-# Module-level cache so the index is loaded once at startup
-_index: faiss.Index | None = None
-_metadata: List[dict] | None = None
-
+    score: float  # similarity, 0–1
 
 def init_retriever() -> None:
-    """Load the vector index into memory (called at app startup)."""
-    global _index, _metadata
-    _index, _metadata = load_index()
-    logger.info("Retriever ready — %d indexed chunks", _index.ntotal)
+    """Check Supabase configuration existence."""
+    settings = get_settings()
+    if not settings.supabase_url or not settings.supabase_key:
+        raise ValueError("SUPABASE_URL and SUPABASE_KEY must be set in .env")
+    logger.info("Supabase settings verified.")
 
 
 def retrieve(query: str, top_k: int | None = None) -> List[RetrievedChunk]:
     """
-    Search the index for chunks most relevant to *query*.
+    Search Supabase Cloud via RPC call using HTTPX.
     Returns a list of RetrievedChunk ordered by descending similarity.
     """
-    if _index is None or _metadata is None:
-        raise RuntimeError("Retriever not initialised. Call init_retriever() first.")
-
     settings = get_settings()
     k = top_k or settings.top_k_results
 
-    # Embed query and normalize for cosine similarity
-    query_vec = np.array([embed_query(query)], dtype="float32")
-    faiss.normalize_L2(query_vec)
+    # RPC URL for Supabase
+    # Example: https://xyz.supabase.co/rest/v1/rpc/match_documents
+    supabase_rpc_url = f"{settings.supabase_url.rstrip('/')}/rest/v1/rpc/match_documents"
+    headers = {
+        "apikey": settings.supabase_key,
+        "Authorization": f"Bearer {settings.supabase_key}",
+        "Content-Type": "application/json"
+    }
 
-    scores, indices = _index.search(query_vec, k)
+    # Embed query and convert to list for SQL vector math
+    query_emb = embed_query(query)
+    query_vector = query_emb.tolist() if hasattr(query_emb, 'tolist') else list(query_emb)
 
-    results: List[RetrievedChunk] = []
-    for score, idx in zip(scores[0], indices[0]):
-        if idx == -1:
-            continue  # FAISS returns -1 for empty slots
-        meta = _metadata[idx]
-        results.append(
-            RetrievedChunk(
-                text=meta["text"],
-                source=meta["source"],
-                score=float(score),
+    try:
+        with httpx.Client() as client:
+            payload = {
+                "query_embedding": query_vector,
+                "match_threshold": 0.5,
+                "match_count": k,
+            }
+            response = client.post(supabase_rpc_url, json=payload, headers=headers)
+            response.raise_for_status()
+            data = response.json()
+
+        results: List[RetrievedChunk] = []
+        for row in data:
+            results.append(
+                RetrievedChunk(
+                    text=row["content"],
+                    source=row["source"],
+                    score=float(row["similarity"]),
+                )
             )
-        )
 
-    logger.debug(
-        "Retrieved %d chunks for query: '%s...' (top score: %.3f)",
-        len(results),
-        query[:60],
-        results[0].score if results else 0,
-    )
-    return results
+        if results:
+            logger.debug(
+                "Retrieved %d chunks from Supabase for query: '%s...' (top score: %.3f)",
+                len(results),
+                query[:60],
+                results[0].score,
+            )
+        return results
+
+    except Exception as e:
+        logger.error(f"Error retrieving from Supabase: {e}")
+        return []
 
 
 def format_context(chunks: List[RetrievedChunk]) -> str:

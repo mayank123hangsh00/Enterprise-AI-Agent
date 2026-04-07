@@ -26,6 +26,10 @@ class Settings(BaseSettings):
     chunk_overlap: int = 100
     top_k_results: int = 5
 
+    # ── Supabase ──────────────────────────────────────────────────────────────
+    supabase_url: str = ""
+    supabase_key: str = ""
+
     # ── App ────────────────────────────────────────────────────────────────────
     app_env: str = "development"
     log_level: str = "INFO"

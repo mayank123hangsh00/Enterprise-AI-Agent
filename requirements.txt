@@ -1,7 +1,7 @@
 fastapi
 uvicorn[standard]
 openai
-faiss-cpu
+httpx
 numpy
 pydantic
 pydantic-settings
