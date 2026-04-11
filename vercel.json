@@ -7,6 +7,10 @@
     { "source": "/history/:session", "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/history/:session" },
     { "source": "/sessions",         "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/sessions" },
     { "source": "/health",           "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/health" },
+    { "source": "/auth/login",       "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/auth/login" },
+    { "source": "/auth/signup",      "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/auth/signup" },
+    { "source": "/auth/logout",      "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/auth/logout" },
+    { "source": "/auth/me",          "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/auth/me" },
     { "source": "/(.*)",             "destination": "/static/$1" }
   ]
 }

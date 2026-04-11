@@ -1,13 +1,6 @@
-// ── Config — replace with your actual Supabase project values ─────────────────
-const SUPABASE_URL = "https://your-project.supabase.co";   // ← your project URL
-const SUPABASE_ANON_KEY = "your-anon-public-key";          // ← anon/public key (NOT service key)
-
-const { createClient } = supabase;
-const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 // ── State ──────────────────────────────────────────────────────────────────────
-let currentUser = null;
-let currentToken = null;
+let currentUser = null;   // { email, user_id }
+let currentToken = null;  // JWT access token (stored in memory only)
 let sessionId = generateSessionId();
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -20,61 +13,79 @@ function escapeHTML(str) {
               .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
+function authHeaders() {
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${currentToken}`,
+    };
+}
+
 marked.setOptions({ headerIds: false, mangle: false });
 
-// ── Auth Flow ──────────────────────────────────────────────────────────────────
-const authScreen   = document.getElementById('auth-screen');
-const appScreen    = document.getElementById('app-screen');
-const authForm     = document.getElementById('auth-form');
-const authEmail    = document.getElementById('auth-email');
-const authPassword = document.getElementById('auth-password');
-const authTitle    = document.getElementById('auth-title');
-const authSubtitle = document.querySelector('.auth-subtitle');
-const authBtnText  = document.getElementById('auth-btn-text');
-const authBtnLoader= document.getElementById('auth-btn-loader');
-const authError    = document.getElementById('auth-error');
-const authToggle   = document.getElementById('auth-toggle-btn');
+// ── DOM Refs ───────────────────────────────────────────────────────────────────
+const authScreen    = document.getElementById('auth-screen');
+const appScreen     = document.getElementById('app-screen');
+const authForm      = document.getElementById('auth-form');
+const authEmail     = document.getElementById('auth-email');
+const authPassword  = document.getElementById('auth-password');
+const authTitle     = document.getElementById('auth-title');
+const authSubtitle  = document.querySelector('.auth-subtitle');
+const authBtnText   = document.getElementById('auth-btn-text');
+const authBtnLoader = document.getElementById('auth-btn-loader');
+const authError     = document.getElementById('auth-error');
+const authToggle    = document.getElementById('auth-toggle-btn');
 
 let isSignUp = false;
 
+// ── Auth Toggle ────────────────────────────────────────────────────────────────
 authToggle.addEventListener('click', () => {
     isSignUp = !isSignUp;
-    authTitle.textContent = isSignUp ? 'Create account' : 'Welcome back';
+    authTitle.textContent    = isSignUp ? 'Create account'  : 'Welcome back';
     authSubtitle.textContent = isSignUp
         ? 'Sign up to access your enterprise AI agent'
         : 'Sign in to access your enterprise AI agent';
-    authBtnText.textContent = isSignUp ? 'Create Account' : 'Sign In';
-    authToggle.textContent = isSignUp ? 'Sign in instead' : 'Create account';
+    authBtnText.textContent  = isSignUp ? 'Create Account'  : 'Sign In';
+    authToggle.textContent   = isSignUp ? 'Sign in instead' : 'Create account';
     authError.classList.add('hidden');
 });
 
+// ── Auth Submit ────────────────────────────────────────────────────────────────
 authForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     authError.classList.add('hidden');
     authBtnLoader.classList.remove('hidden');
     authBtnText.textContent = isSignUp ? 'Creating...' : 'Signing in...';
 
-    const email = authEmail.value.trim();
-    const password = authPassword.value;
+    const endpoint = isSignUp ? '/auth/signup' : '/auth/login';
 
     try {
-        let result;
-        if (isSignUp) {
-            result = await sb.auth.signUp({ email, password });
-        } else {
-            result = await sb.auth.signInWithPassword({ email, password });
-        }
+        const resp = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: authEmail.value.trim(),
+                password: authPassword.value,
+            }),
+        });
 
-        if (result.error) throw result.error;
+        const data = await resp.json();
 
-        if (isSignUp && result.data?.user && !result.data.session) {
-            showAuthError('Check your email to confirm your account before signing in.');
+        if (resp.status === 202) {
+            showAuthError(data.detail || 'Check your email to confirm your account.');
             return;
         }
 
-        // Success — handled by onAuthStateChange
+        if (!resp.ok) {
+            throw new Error(data.detail || 'Authentication failed.');
+        }
+
+        // Store token in memory (never localStorage for security)
+        currentToken = data.access_token;
+        currentUser  = { email: data.email, user_id: data.user_id };
+        showApp();
+
     } catch (err) {
-        showAuthError(err.message || 'Authentication failed.');
+        showAuthError(err.message);
     } finally {
         authBtnLoader.classList.add('hidden');
         authBtnText.textContent = isSignUp ? 'Create Account' : 'Sign In';
@@ -86,19 +97,7 @@ function showAuthError(msg) {
     authError.classList.remove('hidden');
 }
 
-// ── Auth State Listener ────────────────────────────────────────────────────────
-sb.auth.onAuthStateChange(async (event, session) => {
-    if (session) {
-        currentUser = session.user;
-        currentToken = session.access_token;
-        showApp();
-    } else {
-        currentUser = null;
-        currentToken = null;
-        showAuth();
-    }
-});
-
+// ── Show/Hide Screens ──────────────────────────────────────────────────────────
 function showApp() {
     authScreen.classList.add('hidden');
     appScreen.classList.remove('hidden');
@@ -111,9 +110,24 @@ function showAuth() {
     authScreen.classList.remove('hidden');
 }
 
+// Show auth screen on load
+showAuth();
+authScreen.classList.remove('hidden');
+
 // ── Logout ─────────────────────────────────────────────────────────────────────
 document.getElementById('logout-btn').addEventListener('click', async () => {
-    await sb.auth.signOut();
+    try {
+        await fetch('/auth/logout', {
+            method: 'POST',
+            headers: authHeaders(),
+        });
+    } catch (_) {}
+    currentToken = null;
+    currentUser  = null;
+    sessionId    = generateSessionId();
+    chatHistory.innerHTML = '';
+    renderWelcome();
+    showAuth();
 });
 
 // ── Chat ───────────────────────────────────────────────────────────────────────
@@ -154,26 +168,27 @@ async function handleSend(e) {
     scrollToBottom();
 
     try {
-        // Use streaming endpoint
         const response = await fetch('/stream', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${currentToken}`,
-            },
+            headers: authHeaders(),
             body: JSON.stringify({ query, session_id: sessionId }),
         });
 
         typingEl.remove();
 
-        if (!response.ok) throw new Error(`Server error: ${response.status}`);
+        if (!response.ok) {
+            if (response.status === 401) {
+                showAuth();
+                return;
+            }
+            throw new Error(`Server error: ${response.status}`);
+        }
 
-        // Stream the response tokens
         const agentDiv = appendAgentMessageStreaming();
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let fullText = '';
-        let buffer = '';
+        const reader   = response.body.getReader();
+        const decoder  = new TextDecoder();
+        let fullText   = '';
+        let buffer     = '';
 
         while (true) {
             const { done, value } = await reader.read();
@@ -181,14 +196,14 @@ async function handleSend(e) {
 
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split('\n');
-            buffer = lines.pop(); // keep incomplete line
+            buffer = lines.pop();
 
             for (const line of lines) {
                 if (!line.startsWith('data: ')) continue;
                 const raw = line.slice(6).trim();
                 if (raw === '[DONE]') {
                     finalizeStreamMessage(agentDiv, fullText);
-                    loadSessions(); // refresh sidebar
+                    loadSessions();
                     break;
                 }
                 try {
@@ -211,6 +226,7 @@ async function handleSend(e) {
     scrollToBottom();
 }
 
+// ── Message Rendering ──────────────────────────────────────────────────────────
 function appendUserMessage(text) {
     const div = document.createElement('div');
     div.className = 'message user';
@@ -241,8 +257,7 @@ function appendAgentMessageStreaming() {
 }
 
 function finalizeStreamMessage(div, fullText) {
-    const htmlText = marked.parse(fullText);
-    div.querySelector('.markdown-body').innerHTML = htmlText;
+    div.querySelector('.markdown-body').innerHTML = marked.parse(fullText);
 }
 
 function appendAgentMessage(text, sources = []) {
@@ -267,8 +282,8 @@ function appendAgentMessage(text, sources = []) {
 
 function appendTypingIndicator() {
     const template = document.getElementById('typing-template');
-    const clone = template.content.cloneNode(true);
-    const div = clone.querySelector('.message');
+    const clone    = template.content.cloneNode(true);
+    const div      = clone.querySelector('.message');
     chatHistory.appendChild(div);
     return document.querySelector('.typing-indicator');
 }
@@ -281,18 +296,31 @@ function renderWelcome() {
     div.innerHTML = `
         <div class="message-inner">
             <div class="avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg></div>
-            <div class="message-content"><h3>New Session Started</h3><p>What would you like to know?</p></div>
+            <div class="message-content">
+                <h3>Welcome to AcmeAssist</h3>
+                <p>I am your intelligent enterprise assistant. Ask me anything about company policies, leave, IT support, and more.</p>
+                <div class="suggestions">
+                    <button class="suggestion-btn">What is the annual leave policy?</button>
+                    <button class="suggestion-btn">What are the rules for remote work?</button>
+                    <button class="suggestion-btn">Who do I contact for IT support?</button>
+                </div>
+            </div>
         </div>`;
     chatHistory.appendChild(div);
+    div.querySelectorAll('.suggestion-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            input.value = btn.textContent;
+            handleSend(new Event('submit'));
+        });
+    });
 }
 
 // ── Session Sidebar ────────────────────────────────────────────────────────────
 async function loadSessions() {
     if (!currentToken) return;
     try {
-        const resp = await fetch('/sessions', {
-            headers: { 'Authorization': `Bearer ${currentToken}` }
-        });
+        const resp = await fetch('/sessions', { headers: authHeaders() });
+        if (!resp.ok) return;
         const data = await resp.json();
         renderSessions(data.sessions || []);
     } catch (_) {}
@@ -321,9 +349,7 @@ async function loadSessionHistory(sid) {
     sessionId = sid;
     chatHistory.innerHTML = '';
     try {
-        const resp = await fetch(`/history/${sid}`, {
-            headers: { 'Authorization': `Bearer ${currentToken}` }
-        });
+        const resp = await fetch(`/history/${sid}`, { headers: authHeaders() });
         const data = await resp.json();
         (data.messages || []).forEach(msg => {
             if (msg.role === 'user') appendUserMessage(msg.content);
@@ -331,7 +357,7 @@ async function loadSessionHistory(sid) {
         });
         scrollToBottom();
     } catch (_) {
-        appendAgentMessage('Could not load history. Try a new session.', []);
+        appendAgentMessage('Could not load history.', []);
     }
 }
 
@@ -347,10 +373,7 @@ const uploadError    = document.getElementById('upload-error');
 const uploadResultTxt= document.getElementById('upload-result-text');
 const progressFill   = document.getElementById('upload-progress-fill');
 
-uploadBtn.addEventListener('click', () => {
-    uploadModal.classList.remove('hidden');
-    resetUploadModal();
-});
+uploadBtn.addEventListener('click', () => { uploadModal.classList.remove('hidden'); resetUploadModal(); });
 modalCloseBtn.addEventListener('click', () => uploadModal.classList.add('hidden'));
 uploadModal.addEventListener('click', (e) => { if (e.target === uploadModal) uploadModal.classList.add('hidden'); });
 
@@ -359,13 +382,10 @@ dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-ove
 dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
     dropZone.classList.remove('drag-over');
-    const file = e.dataTransfer.files[0];
-    if (file) uploadFile(file);
+    if (e.dataTransfer.files[0]) uploadFile(e.dataTransfer.files[0]);
 });
 
-fileInput.addEventListener('change', () => {
-    if (fileInput.files[0]) uploadFile(fileInput.files[0]);
-});
+fileInput.addEventListener('change', () => { if (fileInput.files[0]) uploadFile(fileInput.files[0]); });
 
 async function uploadFile(file) {
     if (!currentToken) return;
@@ -376,7 +396,6 @@ async function uploadFile(file) {
     dropZone.classList.add('hidden');
     document.getElementById('upload-status-text').textContent = `Uploading "${file.name}"...`;
 
-    // Fake progress animation
     let progress = 0;
     const interval = setInterval(() => {
         progress = Math.min(progress + 10, 85);
@@ -389,7 +408,7 @@ async function uploadFile(file) {
 
         const resp = await fetch('/upload', {
             method: 'POST',
-            headers: { 'Authorization': `Bearer ${currentToken}` },
+            headers: { 'Authorization': `Bearer ${currentToken}` }, // no Content-Type for multipart
             body: formData,
         });
 
