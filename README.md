@@ -224,13 +224,19 @@ Vercel auto-deploys on every `git push` to `main`.
 
 ---
 
-## 🎥 Live Demos
+## 📸 App Screenshots
 
-### 1. Real-Time Streaming Response
-![AcmeAssist Demo](assets/demo_recording.webp)
+### 1. Secure Authentication
+![Login Screen](assets/auth_screen.png)
 
-### 2. RAG Document Retrieval
-![Remote Work RAG Demo](assets/agent_demo_remote_work.webp)
+### 2. Glassmorphic UI & Blank State
+![Welcome Screen](assets/welcome_screen.png)
+
+### 3. Real-Time Document Upload
+![Upload Modal](assets/upload_modal.png)
+
+### 4. RAG Document Retrieval & Context Resolution
+![RAG Retrieval](assets/rag_retrieval.png)
 
 ---
 
