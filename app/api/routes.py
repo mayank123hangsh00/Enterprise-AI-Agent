@@ -64,20 +64,21 @@ async def ask(request: AskRequest, user: dict = Depends(get_current_user)):
 @router.post("/stream", tags=["Agent"])
 async def stream_ask(request: AskRequest, user: dict = Depends(get_current_user)):
     """
-    Streaming endpoint that returns the agent's answer word-by-word using SSE.
-    Requires Bearer token. Frontend uses EventSource or fetch with ReadableStream.
+    Streaming endpoint — runs the full RAG agent loop (tool calls + retrieval),
+    then streams the final answer token-by-token via SSE.
     """
     from app.config import get_settings
     from openai import OpenAI
     from app.agent.memory import memory
-    from app.agent.prompts import SYSTEM_PROMPT
+    from app.agent.prompts import SYSTEM_PROMPT, RAG_CONTEXT_TEMPLATE
     from app.agent.core import ROUTING_INSTRUCTION
+    from app.agent.tools import execute_tool
+    import re, json
 
     settings = get_settings()
     client = OpenAI(api_key=settings.groq_api_key, base_url="https://api.groq.com/openai/v1")
 
     sid = request.session_id or str(uuid.uuid4())
-
     system = SYSTEM_PROMPT + ROUTING_INSTRUCTION
     messages = [{"role": "system", "content": system}]
     messages.extend(memory.get_history(sid))
@@ -85,29 +86,87 @@ async def stream_ask(request: AskRequest, user: dict = Depends(get_current_user)
 
     async def event_generator() -> AsyncGenerator[str, None]:
         full_answer = ""
+        accumulated_sources = []
+
         try:
-            # First yield the session_id
             yield f"data: {{\"session_id\": \"{sid}\"}}\n\n"
 
+            # ── Phase 1: Run tool calls (non-streaming) ───────────────────────
+            # Execute up to 3 tool call iterations to handle RAG retrieval
+            MAX_ITERS = 3
+            for _ in range(MAX_ITERS):
+                resp = client.chat.completions.create(
+                    model=settings.llm_model,
+                    messages=messages,
+                    temperature=0.2,
+                    stream=False,
+                )
+                reply = resp.choices[0].message.content or ""
+
+                # Check for tool call
+                match = re.match(r"TOOL_CALL:\s*(\{.*?\})", reply, re.DOTALL)
+                if not match:
+                    # No tool call — this is the final answer, break and stream it
+                    final_text = re.sub(r"^TOOL_CALL:.*$", "", reply, flags=re.MULTILINE).strip()
+                    break
+
+                # Execute the tool
+                try:
+                    tool_data = json.loads(match.group(1))
+                except json.JSONDecodeError:
+                    final_text = reply
+                    break
+
+                tool_query = tool_data.get("query", request.query)
+                result_text, sources = execute_tool("search_documents", json.dumps({"query": tool_query}))
+                accumulated_sources.extend(sources)
+
+                # Inject context and loop again
+                context_msg = RAG_CONTEXT_TEMPLATE.format(context=result_text)
+                messages.append({"role": "assistant", "content": reply})
+                messages.append({"role": "user", "content": context_msg})
+            else:
+                # Max iterations hit — ask for a direct answer
+                messages.append({"role": "user", "content": "Please summarise your best answer based on the context above."})
+                resp = client.chat.completions.create(
+                    model=settings.llm_model,
+                    messages=messages,
+                    temperature=0.2,
+                    stream=False,
+                )
+                final_text = resp.choices[0].message.content or ""
+
+            # ── Phase 2: Stream the clean final answer token-by-token ─────────
             stream = client.chat.completions.create(
                 model=settings.llm_model,
-                messages=messages,
-                temperature=0.2,
+                messages=[
+                    {"role": "system", "content": "Restate the following answer fluently and completely, preserving all detail:"},
+                    {"role": "user", "content": final_text},
+                ],
+                temperature=0.0,
                 stream=True,
             )
+
             for chunk in stream:
                 delta = chunk.choices[0].delta.content or ""
                 if delta:
                     full_answer += delta
-                    # Escape for SSE
                     safe = delta.replace("\n", "\\n").replace('"', '\\"')
                     yield f"data: {{\"token\": \"{safe}\"}}\n\n"
 
-            # Persist after streaming is done
+            # Persist to memory + Supabase
             memory.add_message(sid, "user", request.query)
             memory.add_message(sid, "assistant", full_answer)
             await save_message(sid, user["id"], "user", request.query)
-            await save_message(sid, user["id"], "assistant", full_answer)
+            await save_message(sid, user["id"], "assistant", full_answer, accumulated_sources)
+
+            yield "data: [DONE]\n\n"
+
+        except Exception as exc:
+            logger.exception("Stream error")
+            safe_err = str(exc).replace('"', '\\"')
+            yield f"data: {{\"error\": \"{safe_err}\"}}\n\n"
+
 
             yield "data: [DONE]\n\n"
 
