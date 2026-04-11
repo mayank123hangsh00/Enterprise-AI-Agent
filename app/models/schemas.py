@@ -24,7 +24,7 @@ class AskResponse(BaseModel):
     model_config = {
         "json_schema_extra": {
             "example": {
-                "answer": "According to the Leave Policy, employees with 0–2 years of service receive 18 working days of annual leave per year.",
+                "answer": "According to the Leave Policy, employees receive 18 working days of annual leave per year.",
                 "source": ["company_leave_policy.txt"],
                 "session_id": "user-abc-123",
             }
@@ -36,3 +36,31 @@ class HealthResponse(BaseModel):
     status: str = "ok"
     version: str = "1.0.0"
     index_loaded: bool = False
+
+
+class UploadResponse(BaseModel):
+    filename: str
+    chunks_indexed: int
+    message: str
+
+
+class ChatMessage(BaseModel):
+    role: str
+    content: str
+    sources: List[str] = Field(default_factory=list)
+    created_at: Optional[str] = None
+
+
+class ChatHistoryResponse(BaseModel):
+    session_id: str
+    messages: List[ChatMessage]
+
+
+class SessionSummary(BaseModel):
+    session_id: str
+    preview: str
+    created_at: str
+
+
+class SessionsResponse(BaseModel):
+    sessions: List[SessionSummary]

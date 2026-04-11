@@ -1,13 +1,12 @@
 {
   "version": 2,
   "rewrites": [
-    {
-      "source": "/ask",
-      "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/ask"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/static/$1"
-    }
+    { "source": "/ask",              "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/ask" },
+    { "source": "/stream",           "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/stream" },
+    { "source": "/upload",           "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/upload" },
+    { "source": "/history/:session", "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/history/:session" },
+    { "source": "/sessions",         "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/sessions" },
+    { "source": "/health",           "destination": "http://acme-agent-app.eba-nwdy2rqs.ap-south-1.elasticbeanstalk.com/health" },
+    { "source": "/(.*)",             "destination": "/static/$1" }
   ]
 }
