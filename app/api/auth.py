@@ -136,3 +136,43 @@ async def me(credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme))
 
     data = resp.json()
     return {"email": data.get("email"), "user_id": data.get("id")}
+
+
+# ── Reusable dependency for protected routes ───────────────────────────────────
+
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+) -> dict:
+    """
+    FastAPI dependency — verifies the Bearer token with Supabase and returns
+    the current user. Raises 401 if the token is missing or invalid.
+    """
+    token = credentials.credentials
+    settings = get_settings()
+
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(
+                f"{settings.supabase_url.rstrip('/')}/auth/v1/user",
+                headers={
+                    "apikey": settings.supabase_key,
+                    "Authorization": f"Bearer {token}",
+                },
+                timeout=5.0,
+            )
+    except httpx.RequestError as exc:
+        logger.error("Auth verification failed: %s", exc)
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Auth service unreachable",
+        )
+
+    if resp.status_code != 200:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    data = resp.json()
+    return {"id": data.get("id"), "email": data.get("email")}
