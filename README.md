@@ -204,7 +204,14 @@ Vercel auto-deploys on every `git push` to `main`.
 
 ---
 
-## 🔐 Security Architecture
+## 🛡️ IT Security & Architecture Decisions
+
+1. **Local Embeddings (Privacy):** We generate document embeddings *within* our server firewall. We never send raw document text to third-party embedding providers.
+2. **Stateless Backend:** By moving vector storage to Supabase, our AWS instances are now stateless. If one instance crashes, others pick up the load instantly with no loss of data.
+3. **Optimized Health Checks:** Implemented `/health` heartbeat endpoints to satisfy standard AWS ELB (Elastic Load Balancing) requirements for 24/7 uptime monitoring.
+4. **Proxy Layer:** The `vercel.json` proxy ensures that browser clients never talk directly to the AWS IP, masking our backend and preventing CORS/Mixed-Content blockers.
+
+### Security Details
 
 | Concern | How It's Handled |
 | :--- | :--- |
